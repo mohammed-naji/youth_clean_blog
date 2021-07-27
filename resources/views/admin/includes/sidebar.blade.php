@@ -12,12 +12,14 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
+    @if (auth()->user()->user_type == 'admin')
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -29,10 +31,24 @@
             <i class="fas fa-fw fa-file-alt"></i>
             <span>Posts</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ request()->routeIs('admin.posts.create') || request()->routeIs('admin.posts.index') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('admin.posts.create') }}">Add Post</a>
-                <a class="collapse-item" href="{{ route('admin.posts.index') }}">All Posts</a>
+                <a class="collapse-item {{ request()->routeIs('admin.posts.create') ? 'active' : '' }}" href="{{ route('admin.posts.create') }}">Add Post</a>
+                <a class="collapse-item {{ request()->routeIs('admin.posts.index') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">All Posts</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory"
+            aria-expanded="true" aria-controls="collapseCategory">
+            <i class="fas fa-fw fa-file-alt"></i>
+            <span>Categories</span>
+        </a>
+        <div id="collapseCategory" class="collapse {{ request()->routeIs('admin.categories.create') || request()->routeIs('admin.categories.index') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ request()->routeIs('admin.categories.create') ? 'active' : '' }}" href="{{ route('admin.categories.create') }}">Add Category</a>
+                <a class="collapse-item {{ request()->routeIs('admin.categories.index') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">All Categories</a>
             </div>
         </div>
     </li>
